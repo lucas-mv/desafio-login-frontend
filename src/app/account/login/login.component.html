@@ -1,1 +1,19 @@
-<p>login works!</p>
+<div class="container">
+    <div class="caixa-login">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <mat-form-field class="text-login">
+                <input matInput placeholder="Login" type="text" formControlName="login">
+                <mat-error *ngIf="login.hasError('required')">
+                    Seu burro, vc esqueceu o login!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="text-senha">
+                <input matInput placeholder="Senha" type="password" formControlName="senha">
+                <mat-error *ngIf="senha.hasError('required')">
+                    Seu burro, vc esqueceu a senha!
+                </mat-error>
+            </mat-form-field>
+            <button class="botao-login" mat-button>ENTRA VEI</button>
+        </form>
+    </div>
+</div>

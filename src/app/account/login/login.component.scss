@@ -1,0 +1,35 @@
+.container {
+    display: grid;
+    background-color: blanchedalmond;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 100%;
+    width: 100%;
+}
+
+.caixa-login {
+    background-color: aliceblue;
+    grid-row: 2;
+    grid-column: 2;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
+    margin: 12px;
+    padding: 12px;
+    border-radius: 8px;
+
+    .text-login {
+        grid-row: 1;
+        grid-column: 1;
+    }
+
+    .text-senha {
+        grid-row: 2;
+        grid-column: 1;
+    }
+
+    .botao-login {
+        grid-row: 3;
+        grid-column: 1;
+    }
+}
