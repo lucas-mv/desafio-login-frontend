@@ -16,7 +16,7 @@ export class AuthenticationService {
   private _currentUser: BehaviorSubject<IUser>;
   get currentUser(): BehaviorSubject<IUser> {
     return this._currentUser;
-}
+  }
 
   constructor(private _http: HttpClient,
               private _settings: SettingsService) {
@@ -34,11 +34,9 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string): Observable<IUser> {
-      return this._http.post<IUser>(`${this._settings.apiUrl}/account/authenticate`, { email, password })
+      return this._http.post<IUser>(`${this._settings.apiUrl}/token`, { email, password })
           .pipe(map(user => {
-              // login successful if there's a jwt token in the response
               if (user && user.token) {
-                  // store user details and jwt token in local storage to keep user logged in between page refreshes
                   localStorage.setItem('user', JSON.stringify(user));
                   this.currentUser.next(user);
               }
@@ -48,31 +46,8 @@ export class AuthenticationService {
   }
 
   logout(): void {
-      // remove user from local storage to log user out
       localStorage.removeItem('user');
       this.currentUser.next(null);
-  }
-
-  refreshToken(): Observable<{ token: string }> {
-    return this._http.get<{ token: string }>(`${this._settings.apiUrl}/account/refresh/${this.getRefreshToken()}`)
-            .pipe(
-              tap((response: { token: string }) => {
-                this.currentUser.value.token = response.token;
-                localStorage.setItem('user', JSON.stringify(this.currentUser.value));
-              })
-          );
-  }
-
-  hasRefreshToken(): boolean {
-    if (this.currentUser.value == null) {
-      return false;
-    }
-
-    return true;
-  }
-
-  private getRefreshToken(): string {
-    return this.currentUser.value.refresh;
   }
 
 }
